@@ -1,0 +1,63 @@
+﻿@model VideoLibraryBusinessLayer.Video
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-6">
+        <h1><b>@Model.Title</b></h1>
+
+        <table class="table">
+            <tr>
+                <td>Title</td>
+                <td>@Model.Title</td>
+            </tr>
+            <tr>
+                <td>Year</td>
+                <td>@Model.Year</td>
+            </tr>
+            <tr>
+                <td>Director</td>
+                <td>@Model.Director</td>
+            </tr>
+        </table>
+
+        <h3>Average Rating: @Model.Rating</h3>
+
+        <h3>Plot</h3>
+        <p>@Model.Plot</p>
+
+        <h3>Reviews</h3>
+        <table class="table">
+            @if (Model.Reviews != null)
+            {
+                foreach (var review in Model.Reviews)
+                {
+                    <tr>
+                        <td>
+                            @review.UserName
+                        </td>
+                        <td>
+                            @review.ReviewText
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>None</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div id="posterdiv" class="col-sm-6">
+        <img id="poster" class="img-responsive" src="@Model.PosterUrl" alt="Movie Poster" />
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

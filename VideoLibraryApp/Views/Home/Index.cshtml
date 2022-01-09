@@ -1,0 +1,77 @@
+﻿@model VideoLibraryBusinessLayer.Video
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    var videos = VideoLibraryBusinessLayer.VideoFactory.GetCollection();
+
+    foreach (var vid in videos)
+    {
+        listItems.Add(new SelectListItem
+        {
+            Text = vid.Director,
+            Value = vid.Director
+        });
+    }
+}
+
+<div id="indexBody">
+    <div class="row">
+        <div class="col-sm-4">
+            <h2>Search Movies</h2>
+            @using (Ajax.BeginForm("SearchResults", "Home", FormMethod.Post,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    UpdateTargetId = "async_searchresults",
+                    LoadingElementId = "async_load",
+                    OnSuccess = "$.bootstrapSortable(true);"
+                }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(Model => Model.Title)
+
+                    @Html.TextBoxFor(t => Model.Title, new { @class = "form-control" })
+                    <div>
+                        @Html.ValidationMessageFor(Model => Model.Title, null, new { @id = "valwarning" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(Model => Model.Year)
+
+                    @Html.TextBoxFor(y => Model.Year, new { @class = "form-control", @value = "0" })
+                    <div>
+                        @Html.ValidationMessageFor(Model => Model.Year, null, new { @id = "valwarning"})
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(Model => Model.Director)
+
+                    @Html.DropDownListFor(model => model.Director, listItems, "-- Select --", new { @class = "form-control" })
+                    <div>
+                        @Html.ValidationMessageFor(Model => Model.Director, null, new { @id = "valwarning" })
+                    </div>
+
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="Search" />
+
+            }
+        </div>
+        <img id="async_load" src="~/Content/giphy.gif" alt="Alternate Text" style="display:none" />
+        <div class="col-sm-8" id="async_searchresults"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#Title").autocomplete({
+            source: "Home/Title",
+            minLength: 3
+        });
+    });
+</script>

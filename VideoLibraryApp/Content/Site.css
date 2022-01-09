@@ -1,0 +1,25 @@
+﻿body {
+    padding-top: 50px;
+}
+
+.navbar-nav li a {
+    line-height: 30px;
+}
+
+#poster {
+    display: block;
+    margin: auto;
+    padding-top: 25px;
+    max-width: 60%;
+    max-height: 60%;
+
+}
+
+#valwarning {
+    color:#d83c3c;
+}
+
+#filmIcon {
+    max-width:115px;
+    
+}
